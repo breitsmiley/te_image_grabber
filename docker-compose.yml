@@ -1,0 +1,54 @@
+version: '3.6'
+
+services:
+
+  te-nginx:
+    image: nginx:1.15.12-alpine
+    volumes:
+      - type: bind
+        source: ./docker/te-nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+      - type: bind
+        source: ./docker/te-nginx/default.conf
+        target: /etc/nginx/conf.d/default.conf
+      - type: bind
+        source: ./apps/te/public
+        target: /app/public
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+    working_dir: /app
+    depends_on:
+      - te-php
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  te-php:
+    image: breitsmiley/te-php-fpm-dev:0.0.1
+#    environment:
+#      - APP_D_FOR=sf
+    volumes:
+      - type: bind
+        source: ./docker/te-php/php.ini
+        target: /usr/local/etc/php/php.ini
+      - type: bind
+        source: ./apps/te
+        target: /app
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  te-node:
+    image: breitsmiley/te-node-dev:0.0.1
+    volumes:
+      - type: bind
+        source: ./
+        target: /app/te
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "5"
