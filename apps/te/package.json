@@ -12,7 +12,8 @@
         "ts-loader": "^5.3.3",
         "typescript": "^3.4.4",
         "webpack-notifier": "^1.6.0",
-        "popper.js": "^1.15.0"
+        "popper.js": "^1.15.0",
+        "@types/jquery": "^3.3.29"
     },
     "license": "UNLICENSED",
     "private": true,

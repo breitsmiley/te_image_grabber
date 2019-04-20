@@ -11,13 +11,14 @@
   border: solid #f7f7f9;
 }
 
-#imageControl button[type="submit"]:disabled span.spinner-border {
+#imageControlSection button[type="submit"]:disabled span.spinner-border {
   display: inline-block;
 }
-#imageControl button[type="submit"] span.spinner-border {
+#imageControlSection button[type="submit"] span.spinner-border {
   display: none;
 }
-#appImageBlockSpinner {
+#appImageGridSpinner,
+#appImageControlResult {
   display: none;
 }
 

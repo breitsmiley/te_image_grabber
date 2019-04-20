@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validation;
 use Twig\Environment;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 class DefaultController extends AbstractController
@@ -24,7 +25,7 @@ class DefaultController extends AbstractController
 
         $tplData = [
 //            'test' => $imageManager->grabPageImages($url, 0, 0),
-            'test' => 111,
+            'images' => $imageManager->getImageSrcList(),
         ];
 
         return $this->render('default/index.html.twig', $tplData);
@@ -36,14 +37,15 @@ class DefaultController extends AbstractController
     /**
      *
      * @Route(
-     *     "/ajax/images/get",
-     *     name="ajax_order_form_submit",
+     *     "/ajax/images/grab_form",
+     *     name="ajax_images_grab_form",
      *     methods={"POST"},
      *     condition="request.isXmlHttpRequest()"
      * )
      */
     public function ajaxImagesGet(Request $request, JsonResponseHelper $jsonResponseHelper, ValidatorHelper $validatorHelper, Environment $twig)
     {
+        sleep(2);
 
         $response = $jsonResponseHelper->prepareJsonResponse();
         $responseData = [
@@ -51,36 +53,40 @@ class DefaultController extends AbstractController
             'data'   => [],
             'errors' => [],
         ];
-//
-//        $formData = $request->request->all();
-//
-//        // Validation
-//        //------------------------------
-//        $validator = Validation::createValidator();
-//        $groups = new Assert\GroupSequence(['Default', 'custom']);
-//        $constraint = new Assert\Collection([
-//            'name'  => [
-//                new Assert\NotBlank(),
-//                new Assert\Regex(['pattern' => "/^[A-ZА-Яa-zа-я'-]{2,20}$/"]),
-//            ],
-//            'phone' => [
-//                new Assert\NotBlank(),
-//                new Assert\Regex(['pattern' => "/^\+[1-9]{1}[0-9]{3,14}$/"]),
-//            ],
-//            'email' => [
-//                new Assert\Email(),
-//            ],
-//        ]);
-//
-//        $violations = $validator->validate($formData, $constraint, $groups);
-//        $errors = $validatorHelper->getValidatorErrors($violations);
-//
-//        if ($errors) {
-//            $responseData['status'] = false;
-//            $responseData['errors'] = $errors;
-//            $response->setData($responseData);
-//            return $response;
-//        }
+
+        $formData = $request->request->all();
+
+        // Validation
+        //------------------------------
+        $validator = Validation::createValidator();
+        $groups = new Assert\GroupSequence(['Default', 'custom']);
+        $constraint = new Assert\Collection([
+            'url'  => [
+                new Assert\NotBlank(),
+                new Assert\Url(),
+            ],
+            'minWidth' => [
+                new Assert\NotBlank(),
+                new Assert\Range(['min' => 200]),
+            ],
+            'minHeight' => [
+                new Assert\NotBlank(),
+                new Assert\Range(['min' => 200]),
+            ],
+        ]);
+
+        $violations = $validator->validate($formData, $constraint, $groups);
+        $errors = $validatorHelper->getValidatorErrors($violations);
+
+        if ($errors) {
+            $responseData['status'] = false;
+            $responseData['errors'] = $twig->render(
+                'default/_image_control_panel_error.html.twig',
+                ['errors' => $errors]
+            );
+            $response->setData($responseData);
+            return $response;
+        }
 //        //------------------------------
 //
 //        $formData['name'] = twig_capitalize_string_filter($twig, $formData['name']);

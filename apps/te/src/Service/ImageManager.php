@@ -4,6 +4,8 @@ namespace App\Service;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class ImageManager
 {
@@ -15,13 +17,16 @@ class ImageManager
 
 
     private $sc;
+    private $fileSystem;
     private $imageDir;
     private $imageStorageDirPath;
     private $fontPath;
+    private $publicPath;
 
     public function __construct(string $imageDir, ContainerInterface $sc)
     {
         $this->sc = $sc;
+        $this->fileSystem = new Filesystem();
         $this->imageDir = $imageDir;
         $this->imageStorageDirPath = $this->sc->get('kernel')->getProjectDir() . "/public/{$this->imageDir}";
         $this->fontPath = $this->sc->get('kernel')->getProjectDir() . "/public/build/NotoMono-Regular.ttf";
@@ -177,6 +182,23 @@ class ImageManager
             ->extract(array('src'));
 
         return $crawlerResult;
+    }
+
+    public function getImageSrcList()
+    {
+        $finder = new Finder();
+        $finder->in($this->imageStorageDirPath)
+            ->files()
+            ->depth('== 0')
+            ->sortByChangedTime()
+        ;
+
+        $imageSrcList = [];
+        foreach ($finder as $imageFile) {
+            $imageSrcList[] = '/' . $this->imageDir . '/' . $imageFile->getFilename();
+        }
+
+        return $imageSrcList;
     }
 
 }
