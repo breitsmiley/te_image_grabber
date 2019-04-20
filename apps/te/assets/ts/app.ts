@@ -43,6 +43,7 @@ $(() => {
 
         $form: $('#appImageControlForm'),
         $appImageControlResult: $('#appImageControlResult'),
+        $imageGrid: $('#imageGrid'),
         init: () => {
             console.log('111Hello Webpack Encore! Edit me in assets/js/app.js');
 
@@ -109,7 +110,7 @@ $(() => {
                     }
                 }).done(responseData => {
                     // window.location.href = "/step1";
-                    console.log(responseData);
+
 
 
 
@@ -119,6 +120,9 @@ $(() => {
                         // $.redirect("/step1", {type: responseData.data.type}, "POST");
 
                         // $.post("/step1", {data1: 'data2'});
+                        appHelper.$imageGrid.prepend(responseData.data);
+
+                        // console.log(responseData.data);
 
                     } else {
                         // let htmlList = '<ul>';

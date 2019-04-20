@@ -20,7 +20,7 @@ class DefaultController extends AbstractController
      */
     public function index(ImageManager $imageManager)
     {
-        $url = 'https://tile.expert';
+//        $url = 'https://tile.expert';
 //        $url = 'https://dig.ua/';
 
         $tplData = [
@@ -43,9 +43,9 @@ class DefaultController extends AbstractController
      *     condition="request.isXmlHttpRequest()"
      * )
      */
-    public function ajaxImagesGet(Request $request, JsonResponseHelper $jsonResponseHelper, ValidatorHelper $validatorHelper, Environment $twig)
+    public function ajaxImagesGet(Request $request, JsonResponseHelper $jsonResponseHelper, ValidatorHelper $validatorHelper, Environment $twig, ImageManager $imageManager)
     {
-        sleep(2);
+//        sleep(2);
 
         $response = $jsonResponseHelper->prepareJsonResponse();
         $responseData = [
@@ -94,7 +94,11 @@ class DefaultController extends AbstractController
 //        // Send API
 //        //------------------------------
 
-        $responseData['data']['type'] = 1;
+//        $responseData['data'] = $imageManager->grabPageImages($formData['url'], $formData['minWidth'], $formData['minHeight']);
+        $responseData['data'] = $twig->render(
+            'default/_image_grid.html.twig',
+            ['images' => $imageManager->grabPageImages($formData['url'], $formData['minWidth'], $formData['minHeight'])]
+        );
         $response->setData($responseData);
 
         return $response;

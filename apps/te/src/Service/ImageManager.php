@@ -66,7 +66,7 @@ class ImageManager
         $fileName = $ts . '_' . md5($imageURL . rand(1, 1000)) . '.' . $imgExt;
         $img->writeImage($this->imageStorageDirPath . '/' . $fileName);
 
-        return $img->getImageFilename();
+        return $fileName;
     }
 
     public function grabPageImages(
@@ -80,7 +80,7 @@ class ImageManager
         $imageSrcList = $this->getPageImages($url);
 
         // TODO
-        $imageSrcList = [$imageSrcList[0]];
+//        $imageSrcList = [$imageSrcList[0]];
 
         $imageSrcList = array_map(
             function ($src) use ($url) {
@@ -124,11 +124,11 @@ class ImageManager
         $savedImagePathList = [];
         foreach ($imageSrcList as $imageSrc) {
             if ($imagePath = $this->processImage($imageSrc, $cropSize)) {
-                $savedImagePathList[] = $imagePath;
+                $savedImagePathList[] = '/' . $this->imageDir . '/' . $imagePath;
             }
         }
 
-        return $savedImagePathList;
+        return array_reverse($savedImagePathList);
     }
 
     /**
@@ -191,6 +191,7 @@ class ImageManager
             ->files()
             ->depth('== 0')
             ->sortByChangedTime()
+            ->reverseSorting()
         ;
 
         $imageSrcList = [];
