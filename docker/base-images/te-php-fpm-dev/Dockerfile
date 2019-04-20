@@ -8,6 +8,7 @@ RUN apk add --no-cache \
 		file \
 		gettext \
 		git \
+		imagemagick \
 	;
 
 
@@ -23,16 +24,16 @@ RUN set -eux; \
 #        postgresql-dev \
         freetype-dev \
         imagemagick-dev \
-        libjpeg-turbo-dev \
-        libpng-dev \
+#        libjpeg-turbo-dev \
+#        libpng-dev \
         zlib-dev \
     ; \
     \
-	docker-php-ext-configure gd \
-            --with-gd \
-            --with-freetype-dir=/usr/include/ \
-            --with-png-dir=/usr/include/ \
-            --with-jpeg-dir=/usr/include/ ; \
+#	docker-php-ext-configure gd \
+#            --with-gd \
+#            --with-freetype-dir=/usr/include/ \
+#            --with-png-dir=/usr/include/ \
+#            --with-jpeg-dir=/usr/include/ ; \
     docker-php-ext-configure zip --with-libzip; \
 	docker-php-ext-install -j$(nproc) \
 		intl \
@@ -41,14 +42,14 @@ RUN set -eux; \
 #		pdo_pgsql \
 #		mysqli \
 		zip \
-		gd \
+#		gd \
     ; \
     pecl install \
 ##        xdebug-${XDEBUG_VERSION} \
         imagick \
 #        redis \
-#    ; \
-#    pecl clear-cache; \
+    ; \
+    pecl clear-cache; \
     docker-php-ext-enable \
         opcache \
 #        bcmath \
@@ -56,7 +57,7 @@ RUN set -eux; \
 #        pdo_pgsql \
 #        mysqli \
 #        xdebug \
-#	    imagick \
+	    imagick \
 #	    redis \
     ; \
     \
@@ -69,6 +70,9 @@ RUN set -eux; \
     apk add --no-cache --virtual .php-phpexts-rundeps $runDeps; \
     \
     apk del .build-deps
+
+    # hack
+#    RUN apk --update add imagemagick
 
 # Install Composer
 #-------------------------------------
