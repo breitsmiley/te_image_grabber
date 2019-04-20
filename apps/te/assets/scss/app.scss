@@ -1,0 +1,23 @@
+@import "~bootstrap/scss/bootstrap";
+@import 'variables';
+@import 'mixins';
+@import 'global';
+
+.app-block {
+  padding: 1.5rem;
+  border-width: .2rem;
+  position: relative;
+  margin: 1rem;
+  border: solid #f7f7f9;
+}
+
+#imageControl button[type="submit"]:disabled span.spinner-border {
+  display: inline-block;
+}
+#imageControl button[type="submit"] span.spinner-border {
+  display: none;
+}
+#appImageBlockSpinner {
+  display: none;
+}
+

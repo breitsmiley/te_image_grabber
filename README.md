@@ -64,7 +64,7 @@ npm run watch
 npm run build
 ```
 
-
+find ./image_storage/ ! -name '.gitignore' -type f -exec rm -f {} +
 
 
 

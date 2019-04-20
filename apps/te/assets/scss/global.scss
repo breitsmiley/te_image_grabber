@@ -1,0 +1,73 @@
+// Global styling for this template
+
+body,
+html {
+  height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Open Sans',serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  text-transform: uppercase;
+  color: $gray-800;
+}
+
+.gutter-top-large {
+  padding-top: $gutter*2;
+}
+
+.gutter-top-medium {
+  padding-top: $gutter;
+}
+
+.gutter-large {
+  padding: $gutter*2 0;
+}
+
+.gutter-medium {
+  padding: $gutter 0;
+}
+
+.gutter-medium2 {
+  padding: $gutter + 15 0;
+}
+
+.gutter-small {
+  padding: $gutter/2;
+}
+
+.text-blue {
+  color: $blue2;
+}
+
+.text-green {
+  color: $green;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  li {
+    list-style: none;
+  }
+}
+
+button {
+  cursor: pointer;
+  outline: none !important;
+  border: none;
+}

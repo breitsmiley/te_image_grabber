@@ -46,8 +46,8 @@ services:
     image: breitsmiley/te-node-dev:0.0.1
     volumes:
       - type: bind
-        source: ./
-        target: /app/te
+        source: ./apps/te
+        target: /app
     logging:
       options:
         max-size: "10m"

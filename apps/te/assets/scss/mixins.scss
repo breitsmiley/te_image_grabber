@@ -1,0 +1,45 @@
+@mixin background-cover {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+  -o-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+}
+
+@mixin flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin transition($transition...) {
+  transition: $transition;
+  -moz-transition: $transition;
+  -o-transition: $transition;
+  -webkit-transition: $transition;
+}
+
+@mixin transform($transform) {
+  transform: $transform;
+  -o-transform: $transform;
+  -ms-transform: $transform;
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+}
+
+@mixin animation($name, $option) {
+  animation-#{$name}: $option;
+  -o-animation-#{$name}: $option;
+  -ms-animation-#{$name}: $option;
+  -webkit-animation-#{$name}: $option;
+  -moz-animation-#{$name}: $option;
+}
