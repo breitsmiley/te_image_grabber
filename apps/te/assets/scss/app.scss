@@ -14,11 +14,12 @@
 #imageControlSection button[type="submit"]:disabled span.spinner-border {
   display: inline-block;
 }
+
 #imageControlSection button[type="submit"] span.spinner-border {
   display: none;
 }
+
 #appImageGridSpinner,
 #appImageControlResult {
   display: none;
 }
-

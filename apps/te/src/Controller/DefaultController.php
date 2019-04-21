@@ -20,19 +20,14 @@ class DefaultController extends AbstractController
      */
     public function index(ImageManager $imageManager)
     {
-//        $url = 'https://tile.expert';
-//        $url = 'https://dig.ua/';
+        file_get_contents('https://tile.expert');
 
         $tplData = [
-//            'test' => $imageManager->grabPageImages($url, 0, 0),
             'images' => $imageManager->getImageSrcList(),
         ];
 
         return $this->render('default/index.html.twig', $tplData);
-
     }
-
-
 
     /**
      *
@@ -43,14 +38,18 @@ class DefaultController extends AbstractController
      *     condition="request.isXmlHttpRequest()"
      * )
      */
-    public function ajaxImagesGet(Request $request, JsonResponseHelper $jsonResponseHelper, ValidatorHelper $validatorHelper, Environment $twig, ImageManager $imageManager)
+    public function ajaxImagesGet(
+        Request $request,
+        JsonResponseHelper $jsonResponseHelper,
+        ValidatorHelper $validatorHelper,
+        Environment $twig,
+        ImageManager $imageManager
+    )
     {
-//        sleep(2);
-
         $response = $jsonResponseHelper->prepareJsonResponse();
         $responseData = [
             'status' => true,
-            'data'   => [],
+            'data' => [],
             'errors' => [],
         ];
 
@@ -61,7 +60,7 @@ class DefaultController extends AbstractController
         $validator = Validation::createValidator();
         $groups = new Assert\GroupSequence(['Default', 'custom']);
         $constraint = new Assert\Collection([
-            'url'  => [
+            'url' => [
                 new Assert\NotBlank(),
                 new Assert\Url(),
             ],
@@ -87,17 +86,15 @@ class DefaultController extends AbstractController
             $response->setData($responseData);
             return $response;
         }
-//        //------------------------------
-//
-//        $formData['name'] = twig_capitalize_string_filter($twig, $formData['name']);
-//
+
 //        // Send API
 //        //------------------------------
-
-//        $responseData['data'] = $imageManager->grabPageImages($formData['url'], $formData['minWidth'], $formData['minHeight']);
+        $tplData = [
+            'images' => $imageManager->grabPageImages($formData['url'], $formData['minWidth'], $formData['minHeight'])
+        ];
         $responseData['data'] = $twig->render(
             'default/_image_grid.html.twig',
-            ['images' => $imageManager->grabPageImages($formData['url'], $formData['minWidth'], $formData['minHeight'])]
+            $tplData
         );
         $response->setData($responseData);
 
