@@ -20,8 +20,6 @@ class DefaultController extends AbstractController
      */
     public function index(ImageManager $imageManager)
     {
-        file_get_contents('https://tile.expert');
-
         $tplData = [
             'images' => $imageManager->getImageSrcList(),
         ];
@@ -72,6 +70,9 @@ class DefaultController extends AbstractController
                 new Assert\NotBlank(),
                 new Assert\Range(['min' => 200]),
             ],
+            'grab_mode' => [
+                new Assert\Choice(['choices' => [$imageManager::GRAB_MODE_FAST, $imageManager::GRAB_MODE_SLOW]]),
+            ],
         ]);
 
         $violations = $validator->validate($formData, $constraint, $groups);
@@ -87,10 +88,10 @@ class DefaultController extends AbstractController
             return $response;
         }
 
-//        // Send API
-//        //------------------------------
+        // Processing
+        //------------------------------
         $tplData = [
-            'images' => $imageManager->grabPageImages($formData['url'], $formData['minWidth'], $formData['minHeight'])
+            'images' => $imageManager->grabPageImages($formData['url'], $formData['minWidth'], $formData['minHeight'], $formData['grab_mode'])
         ];
         $responseData['data'] = $twig->render(
             'default/_image_grid.html.twig',

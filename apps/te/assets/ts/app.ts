@@ -48,16 +48,18 @@ $(() => {
                         $appImageControlResult.html('Successfully');
                         $appImageControlResult.removeClass('alert-danger');
                         $appImageControlResult.addClass('alert-success');
+                        $appImageControlResult.show().fadeOut(3000);
 
                     } else {
 
                         $appImageControlResult.html(responseData.errors);
                         $appImageControlResult.removeClass('alert-success');
                         $appImageControlResult.addClass('alert-danger');
+                        $appImageControlResult.show();
                     }
                     formDom.reset();
                     $form.removeClass('was-validated');
-                    $appImageControlResult.show().fadeOut(1000);
+
 
                 }).fail((jqXHR, textStatus, errorThrown) => {
                     console.log(jqXHR, textStatus, errorThrown);
