@@ -19,6 +19,7 @@ docker-compose up -d
 2. Goto php container => install php dependencies
 ```bash
 docker-compose exec te-php sh
+cp .env.dev .env
 composer install
 exit
 ```
