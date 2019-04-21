@@ -27,9 +27,9 @@ services:
         max-file: "5"
 
   te-php:
-    image: breitsmiley/te-php-fpm-dev:0.0.3
-#    environment:
-#      - APP_D_FOR=sf
+    image: breitsmiley/te-php-fpm-dev:0.0.4
+    environment:
+      - APP_D_FOR=sf
     volumes:
       - type: bind
         source: ./docker/te-php/php.ini
